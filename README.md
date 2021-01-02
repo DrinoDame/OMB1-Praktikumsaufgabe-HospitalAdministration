@@ -1,2 +1,16 @@
 # OMB1-Praktikumsaufgabe-HospitalAdministration
- Programm zur Verwaltung von Personen (Patient und Angestellten), sowie Räumen innerhalb eines Krankenhauses. 
+ 
+ 
+ Hi Andi, Hi Linus, 
+ 
+ 
+ hier mein Code zur Abgabe "Krankenhausverwaltung".
+ Um euch das Testen zu erleichtern, habe ich in der Main bereits ein paar Personen (Doctor, Nurse, Patienten), sowie Räume angelegt. 
+ Ist alles auskommentiert und kann, wenn gewünscht, genutzt werden. 
+ 
+ 
+ Ansonsten... viel Spaß beim Testen :D
+ 
+ 
+ Grüße
+ Anna-Lara Buchner
