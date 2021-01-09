@@ -1,5 +1,6 @@
 package HospitalAdministration;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 
 public class Room {
@@ -45,7 +46,11 @@ public class Room {
     void addEmployee(Person personToAdd){
         Employee employeeToAdd = (Employee) personToAdd;
         employeesInRoom.add(employeeToAdd);
-        System.out.println(ANSI_CYAN + employeeToAdd.type + " " + employeeToAdd.name + " has been moved to room number " + roomNumber + "." + ANSI_RESET);
+        if(employeeToAdd instanceof Doctor) {
+            System.out.println(ANSI_CYAN + "Doctor " + employeeToAdd.name + " has been moved to room number " + roomNumber + "." + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_CYAN + "Nurse " + employeeToAdd.name + " has been moved to room number " + roomNumber + "." + ANSI_RESET);
+        }
     }
 
     void personsInRoom(){
@@ -55,7 +60,11 @@ public class Room {
         }
         System.out.println("Also there are the following employees:");
         for (Employee employee : employeesInRoom) {
-            System.out.println(employee.name);
+            if(employee instanceof Doctor) {
+                System.out.println("Doctor " + employee.name);
+            } else {
+                System.out.println("Nurse " + employee.name);
+            }
         }
     }
 

@@ -24,14 +24,13 @@ public class PersonnelManagement {
                     System.out.println("""
                            The following commands can be used:\s
                            /help: see all possible commands\s
-                           /exit: exit the programm\s
+                           /exit: exit the program\s
                            /newPatient: create a new patient\s
                            /newEmployee: create a new employee\s
                            /newRoom: create a new room\s
                            /releasePatient: release a patient from the hospital\s
-                           /deleteRoom: delete an existing room\s
-                           /addPatientToRoom: assign a patient to a room\s
-                           /addEmployeeToRoom: assign an employee to a room\s
+                           /deleteRoom: delete an existing room by room number\s
+                           /addPersonToRoom: assign a person (patient or employee) to a room\s
                            /movePatient: move patient to another room\s
                            /setAllocatedTime: set monthly allocated working time of an employee\s
                            /changeWorkedTime: change the actually worked time this month of an employee\s
@@ -70,7 +69,7 @@ public class PersonnelManagement {
                     int patientAge = scanner.nextInt();
                     System.out.println("Has the patient statutory insurance? Please answer with true or false.");
                     boolean hasStatutoryInsurance = scanner.nextBoolean();
-                    Patient newPatient = new Patient(patientName, patientAge, "patient", hasStatutoryInsurance);
+                    Patient newPatient = new Patient(patientName, patientAge, hasStatutoryInsurance);
                     createPerson(newPatient);
                     break;
 
@@ -211,21 +210,11 @@ public class PersonnelManagement {
         throw new RoomNotFoundException(ANSI_RED + "Couldn't find a room with " + patientsName + " in it." + ANSI_RESET);
     }
 
-    int getAmountOfPersonsByType(String type){
-        int amountOfPersonsWithType = 0;
-        for (Person person : persons) {
-            if(person.type.equals(type)){
-                amountOfPersonsWithType++;
-            }
-        }
-        return amountOfPersonsWithType;
-    }
-
 
     // ----- Eigentliche Methoden -----
 
     // createPerson für Patienten: fügt neuen Patienten der ArrayList persons hinzu.
-    void createPerson(Patient newPatient) throws PersonNotFoundException {
+    void createPerson(Patient newPatient){
         try {
             // wenn Person bereits vorhanden, dann Fehlermeldung ausgeben
             Person mightAlreadyExist = getPersonByName(newPatient.name);
@@ -241,7 +230,7 @@ public class PersonnelManagement {
 
     // createPerson für Personal. Prüft auf Doctor oder Nurse und legt neuen employee mit passendem degree oder shift an.
     // Erstellt außerdem ein TimeSheet. employee wird der ArrayList persons hinzugefügt.
-    void createPerson(String employeeType, String employeeName, int employeeAge, float employeeWage, int employeeTaxCategory, String degreeOrShift) throws PersonNotFoundException{
+    void createPerson(String employeeType, String employeeName, int employeeAge, float employeeWage, int employeeTaxCategory, String degreeOrShift){
         try {
             // wenn Person bereits existiert, Fehlermeldung ausgeben.
             Person mightAlreadyExist = getPersonByName(employeeName);
@@ -273,9 +262,9 @@ public class PersonnelManagement {
                     default:
                         System.out.println(ANSI_RED + "Entered degree didn't match. Please try again." + ANSI_RESET);
                 }
-                Doctor newDoctor = new Doctor(employeeName, employeeAge, employeeType, employeeWage, employeeTaxCategory, account, degree);
+                Doctor newDoctor = new Doctor(employeeName, employeeAge, employeeWage, employeeTaxCategory, account, degree);
                 persons.add(newDoctor);
-                System.out.println(ANSI_CYAN + "Doctor " + newDoctor.name + " is now working as a " + degree + " for the hospital." + ANSI_RESET);
+                System.out.println(ANSI_CYAN + newDoctor.name + " is now working as a " + degree + " for the hospital." + ANSI_RESET);
 
             } else if (employeeType.equals("nurse")) {
                 Nurse.Shift shift = null;
@@ -292,9 +281,9 @@ public class PersonnelManagement {
                     default:
                         System.out.println(ANSI_RED + "Entered shift didn't match. Please try again." + ANSI_RESET);
                 }
-                Nurse newNurse = new Nurse(employeeName, employeeAge, employeeType, employeeWage, employeeTaxCategory, account, shift);
+                Nurse newNurse = new Nurse(employeeName, employeeAge, employeeWage, employeeTaxCategory, account, shift);
                 persons.add(newNurse);
-                System.out.println(ANSI_CYAN + "Nurse " + newNurse.name + " is now working as a nurse in " + shift + " for the hospital." + ANSI_RESET);
+                System.out.println(ANSI_CYAN + newNurse.name + " is now working as a nurse in " + shift + " for the hospital." + ANSI_RESET);
 
             } else {
                 // wenn Eingabe weder nurse noch doctor war, Fehlermeldung ausgeben
@@ -304,7 +293,7 @@ public class PersonnelManagement {
     }
 
     // Legt einen neuen Raum an und fügt ihn der ArrayList rooms hinzu.
-    void createRoom(int numberOfBeds, int roomNumber) throws RoomNotFoundException{
+    void createRoom(int numberOfBeds, int roomNumber){
         // Prüfen, ob Raum bereits existiert
         try {
             Room mightAlreadyExist = getRoomByNumber(roomNumber);
@@ -344,7 +333,7 @@ public class PersonnelManagement {
             Person personToAdd = getPersonByName(personsName);
             Room moveToRoom = getRoomByNumber(roomNumber);
             // Prüfen, ob's ein Patient oder Angestellter ist
-            if(personToAdd.type.equals("patient")){
+            if(personToAdd instanceof Patient){
                 moveToRoom.addPatient(personToAdd);
             } else {
                 moveToRoom.addEmployee(personToAdd);
@@ -392,7 +381,7 @@ public class PersonnelManagement {
     }
 
     // Istzeit eines Employees ändern
-    void changeActualTime(String employeesName, int minutesToChange) throws PersonNotFoundException {
+    void changeActualTime(String employeesName, int minutesToChange){
         try {
             Employee employee = (Employee) getPersonByName(employeesName);
             int newActualTime = employee.account.changeActualTime(minutesToChange);
@@ -406,7 +395,7 @@ public class PersonnelManagement {
     }
 
     // Gehalt eines Angestellten ausrechnen, brutto oder netto
-    void getSalaryOfEmployee(String employeesName, String grossOrNet) throws PersonNotFoundException {
+    void getSalaryOfEmployee(String employeesName, String grossOrNet){
         try {
             Employee employee = (Employee) getPersonByName(employeesName);
             if (grossOrNet.equals("gross")) {
@@ -453,13 +442,37 @@ public class PersonnelManagement {
             amountOfFullBeds += room.patientsInRoom.size();
         }
 
-        int amountOfPatients = getAmountOfPersonsByType("patient");
-        int amountOfDoctors = getAmountOfPersonsByType("doctor");
-        int amountOfNurses = getAmountOfPersonsByType("nurse");
-        int amountOfStuff = amountOfNurses + amountOfDoctors;
+        int amountOfPatients = 0;
+        for (Person person : persons) {
+            if(person instanceof Patient){
+                amountOfPatients ++;
+            }
+        }
+
+
+        int amountOfDoctors = 0;
+        for (Person person : persons) {
+            if(person instanceof Doctor) {
+                amountOfDoctors++;
+            }
+        }
+
+        int amountOfNurses = 0;
+        for (Person person : persons) {
+            if(person instanceof Nurse){
+                amountOfNurses ++;
+            }
+        }
+
+        int amountOfEmployees = 0;
+        for (Person person : persons) {
+            if(person instanceof Employee){
+                amountOfEmployees++;
+            }
+        }
 
         System.out.println("There are " + persons.size() + " persons in the hospital.\n" +
-                           amountOfPatients + " are patients and " + amountOfStuff + " are employees.\n" +
+                           amountOfPatients + " are patients and " + amountOfEmployees + " are employees.\n" +
                            amountOfDoctors + " of the employees are doctors, the remaining " + amountOfNurses + " are nurses.\n" +
                            "The hospital has " + rooms.size() + " rooms with a total amount of " + amountOfBeds + " beds.\n" +
                            amountOfFullBeds + " beds are full.");

@@ -5,8 +5,8 @@ public class Nurse extends Employee{
     Shift shift;
 
     // Constructor
-    Nurse(String name, int age, String type, float hourlyWage, int taxCategory, TimeSheet account, Shift shift) {
-        super(name, age, type, hourlyWage, taxCategory, account);
+    Nurse(String name, int age, float hourlyWage, int taxCategory, TimeSheet account, Shift shift) {
+        super(name, age, hourlyWage, taxCategory, account);
         this.shift = shift;
     }
 

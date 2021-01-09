@@ -6,8 +6,8 @@ public abstract class Employee extends Person {
     int taxCategory;
     TimeSheet account;
 
-    Employee(String name, int age, String type, float hourlyWage, int taxCategory, TimeSheet account) {
-        super(name, age, type);
+    Employee(String name, int age, float hourlyWage, int taxCategory, TimeSheet account) {
+        super(name, age);
         this.hourlyWage = hourlyWage;
         this.taxCategory = taxCategory;
         this.account = account;

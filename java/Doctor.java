@@ -5,8 +5,8 @@ public class Doctor extends Employee{
     Degree degree;
 
     // Constructor
-    Doctor(String name, int age, String type, float hourlyWage, int taxCategory, TimeSheet account, Degree degree) {
-        super(name, age, type, hourlyWage, taxCategory, account);
+    Doctor(String name, int age, float hourlyWage, int taxCategory, TimeSheet account, Degree degree) {
+        super(name, age, hourlyWage, taxCategory, account);
         this.degree = degree;
     }
 
