@@ -4,6 +4,10 @@ public class Main {
 
     public static void main(String[] args) throws PersonNotFoundException, RoomNotFoundException {
 
+        // Farben für die sout's... :D
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_CYAN = "\u001B[36m";
+
         // neues Management
         PersonnelManagement managementOfTestHospital = new PersonnelManagement();
 
@@ -51,7 +55,7 @@ public class Main {
         // ----- Ende hard gecodeder Stuff -----
 
         // Start update
-        System.out.println("With this tool you can manage the persons in a hospital. Type /help to see all the possible commands.");
+        System.out.println(ANSI_CYAN + "With this tool you can manage the persons in a hospital. Type /help to see all the possible commands." + ANSI_RESET);
         managementOfTestHospital.update();
 
     }

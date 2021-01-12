@@ -242,22 +242,22 @@ public class PersonnelManagement {
             TimeSheet account = new TimeSheet();
 
             if (employeeType.equals("doctor")) {
-                Doctor.Degree degree = null;
+                Degree degree = null;
                 switch (degreeOrShift) {
                     case "DoctorInTraining":
-                        degree = Doctor.Degree.DoctorInTraining;
+                        degree = Degree.DoctorInTraining;
                         break;
                     case "AssistentPhysician":
-                        degree = Doctor.Degree.AssistentPhysician;
+                        degree = Degree.AssistentPhysician;
                         break;
                     case "Specialist":
-                        degree = Doctor.Degree.Specialist;
+                        degree = Degree.Specialist;
                         break;
                     case "SeniorPhysician":
-                        degree = Doctor.Degree.SeniorPhysician;
+                        degree = Degree.SeniorPhysician;
                         break;
                     case "ChiefPhysician":
-                        degree = Doctor.Degree.ChiefPhysician;
+                        degree = Degree.ChiefPhysician;
                         break;
                     default:
                         System.out.println(ANSI_RED + "Entered degree didn't match. Please try again." + ANSI_RESET);
@@ -267,16 +267,16 @@ public class PersonnelManagement {
                 System.out.println(ANSI_CYAN + newDoctor.name + " is now working as a " + degree + " for the hospital." + ANSI_RESET);
 
             } else if (employeeType.equals("nurse")) {
-                Nurse.Shift shift = null;
+                Shift shift = null;
                 switch (degreeOrShift) {
                     case "nightShift":
-                        shift = Nurse.Shift.nightShift;
+                        shift = Shift.nightShift;
                         break;
                     case "earlyShift":
-                        shift = Nurse.Shift.earlyShift;
+                        shift = Shift.earlyShift;
                         break;
                     case "lateShift":
-                        shift = Nurse.Shift.lateShift;
+                        shift = Shift.lateShift;
                         break;
                     default:
                         System.out.println(ANSI_RED + "Entered shift didn't match. Please try again." + ANSI_RESET);

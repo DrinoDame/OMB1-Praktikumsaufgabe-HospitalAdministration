@@ -5,7 +5,6 @@ public class TimeSheet {
     private int allocatedTime;
     private int actualTime;
 
-    // Constructor
     static void minToHours(int toConvert){
         int hours = toConvert / 60;
         int minutes = toConvert % 60;

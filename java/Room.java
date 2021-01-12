@@ -1,6 +1,5 @@
 package HospitalAdministration;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 
 public class Room {
@@ -37,6 +36,7 @@ public class Room {
         Patient patientToAdd = (Patient) personToAdd;
         if(numberOfBeds > patientsInRoom.size()){
             patientsInRoom.add(patientToAdd);
+            //patientsInRoom.add(patientToAdd);
             System.out.println(ANSI_CYAN + "Patient " + personToAdd.name + " has been moved to room number " + roomNumber + "." + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "Sorry, the room " + roomNumber + " is already full." + ANSI_RESET);

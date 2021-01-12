@@ -1,6 +1,6 @@
 package HospitalAdministration;
 
-public class Patient extends Person {
+public class Patient extends Person{
 
     boolean hasStatutoryInsurance;
 
@@ -8,6 +8,4 @@ public class Patient extends Person {
         super(name, age);
         this.hasStatutoryInsurance = hasStatutoryInsurance;
     }
-
-
 }
